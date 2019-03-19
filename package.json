@@ -11,8 +11,8 @@
     "url": "git+https://github.com/ThorNolan/liri-node-app.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Thor Nolan",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ThorNolan/liri-node-app/issues"
   },
