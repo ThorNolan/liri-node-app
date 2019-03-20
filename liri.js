@@ -35,33 +35,33 @@ function checkInputs(actionChoice, searchQuery){
     // switch case checks for which action the user has input and calls its corresponding function
 	switch(actionChoice){
 
-    case "concert-this":
-        concertSearch(artistName);
-        break;    
+        case "concert-this":
+            concertSearch(artistName);
+            break;    
 
-	case "spotify-this-song":
-		// command will search using the default song if user input is undefined
-		if(searchQuery === undefined){
-			searchQuery = defaultSong;
-		}     
-        spotifySearch(searchQuery); 
-        break;
+        case "spotify-this-song":
+            // command will search using the default song if user input is undefined
+            if(searchQuery === undefined){
+                searchQuery = defaultSong;
+            }     
+            spotifySearch(searchQuery); 
+            break;
 
-    case "movie-this":
-    	// command will search using the default movie if user input is undefined
-		if(searchQuery === undefined){
-			searchQuery = defaultMovie;
-		}    
-        movieSearch(searchQuery); 
-        break;
+        case "movie-this":
+            // command will search using the default movie if user input is undefined
+            if(searchQuery === undefined){
+                searchQuery = defaultMovie;
+            }    
+            movieSearch(searchQuery); 
+            break;
 
-	case "do-what-it-says":
-        doWhatItSays(); 
-        break;
+        case "do-what-it-says":
+            doWhatItSays(); 
+            break;
 
-    // default to deal with case of invalid user inputs    
-	default: 
-		console.log("Not a valid command! Please try a little harder.");
+        // default to deal with case of invalid user inputs    
+        default: 
+            console.log("Not a valid command! Please try a little harder.");
     }
 }   
 
@@ -107,13 +107,9 @@ function spotifySearch(songName) {
 
 // function to make a call to the OMDB API using the axios package and display movie data
 function movieSearch(movieName) {
-    
-	    // Store movie ID in a local variable
-	    var movie =  JSON.parse(body).results[0].id;
-	    //console.log(movie);
 
-        // Create new request to the OMDB API using the movie name entered by the user
-        var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
+    // Create new request to the OMDB API using the movie name entered by the user
+    var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
 
 	    request(queryURL, function(error, response, movieObj) {
 
@@ -121,7 +117,8 @@ function movieSearch(movieName) {
   	    if (!error && response.statusCode === 200) {
 
             // Parse the movie JSON object
-	    	var movieObj = JSON.parse(movieObj);
+            var movieObj = JSON.parse(movieObj);
+            console.log(movieObj)
 
             // Console.log out the movie data to the user in their console
 	    	console.log("--------Title-----------");
@@ -135,19 +132,18 @@ function movieSearch(movieName) {
             
 	   		console.log("--------Rotten Tomatoes Rating-----------");
             console.log(movieObj.Ratings[2].Value);
-                  
-	   		console.log("--------Country Produced-----------");
-	   		console.log(movieObj.Country);
-	   		
-	   		console.log("--------Languages-----------");
-	   		console.log(movieObj.Language);
 	   		
 	   		console.log("--------Plot----------------");
 	   		console.log(movieObj.Plot);
 
 	   		console.log("--------Actors-----------");
-	   		console.log(movieObj.credits.Actors);
+            console.log(movieObj.Actors);
+             
+            console.log("--------Country Produced-----------");
+	   		console.log(movieObj.Country);
 	   		
+	   		console.log("--------Languages-----------");
+	   		console.log(movieObj.Language);
 
         // account for potential errors
         } else {
