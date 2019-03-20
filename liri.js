@@ -9,6 +9,8 @@ var request = require("request");
 var Spotify = require('node-spotify-api');
 // local variable to store my spotify keys exported from keys.js
 var spotify = new Spotify(keys.spotify);
+var omdbKey = keys.omdbKey;
+
 
 // default search values for omdb and spotify if user fails to input or input is undefined
 var defaultMovie = "Mr. Nobody";
@@ -33,23 +35,27 @@ function checkInputs(actionChoice, searchQuery){
     // switch case checks for which action the user has input and calls its corresponding function
 	switch(actionChoice){
 
-	case 'spotify-this-song':
+    case "concert-this":
+
+        break;    
+
+	case "spotify-this-song":
 		// command will search using the default song if user input is undefined
 		if(searchQuery === undefined){
 			searchQuery = defaultSong;
 		}     
-        spotifyThis(searchQuery); 
+        spotifySearch(searchQuery); 
         break;
 
-    case 'movie-this':
+    case "movie-this":
     	// command will search using the default movie if user input is undefined
 		if(searchQuery === undefined){
 			searchQuery = defaultMovie;
 		}    
-        movieThis(searchQuery); 
+        movieSearch(searchQuery); 
         break;
 
-	case 'do-what-it-says':
+	case "do-what-it-says":
         doWhatItSays(); 
         break;
 
@@ -58,6 +64,38 @@ function checkInputs(actionChoice, searchQuery){
 		console.log("Not a valid command! Please try a little harder.");
     }
 }   
+
+// function to make a call to the Bands In Town API and display upcoming concert info
+function concertSearch(artistName) {
+
+}
+
+// function to make a call to the Spotify API using the axios package and display song data
+function spotifySearch(songName) {
+
+}
+
+// function to make a call to the OMDB API using the axios package and display movie data
+function movieSearch(movieName) {
+
+}
+
+// this function simply reads whatever's on the random.txt file and displays it
+function doWhatItSays() {
+
+    // use the fs node package so that the text can be parsed
+    fs.readFile('random.txt', 'utf8', function(err, data){
+
+		if (err){ 
+			return console.log(err);
+		}
+
+		var dataArr = data.split(',');
+
+		checkInputs(dataArr[0], dataArr[1]);
+	});
+}
+
 
 // ============================= CALL FUNCTIONS ============================
 
