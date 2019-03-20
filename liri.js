@@ -6,7 +6,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var fs = require("fs");
 var request = require("request");
-var Spotify = require('node-spotify-api');
+var Spotify = require("node-spotify-api");
 // local variable to store my spotify keys exported from keys.js
 var spotify = new Spotify(keys.spotify);
 var omdbKey = keys.omdbKey;
@@ -14,7 +14,7 @@ var omdbKey = keys.omdbKey;
 
 // default search values for omdb and spotify if user fails to input or input is undefined
 var defaultMovie = "Mr. Nobody";
-var defaultSong = "The Sign"
+var defaultSong = "The Sign";
 
 
 // Store user inputs in variables, argv[2] for choosing which action and argv[3] for user's search query terms
@@ -36,7 +36,7 @@ function checkInputs(actionChoice, searchQuery){
 	switch(actionChoice){
 
     case "concert-this":
-
+        concertSearch(artistName);
         break;    
 
 	case "spotify-this-song":
@@ -73,6 +73,29 @@ function concertSearch(artistName) {
 // function to make a call to the Spotify API using the axios package and display song data
 function spotifySearch(songName) {
 
+    spotify.search({ type: "track", query: songName}, function(err, data) {
+    if (err) {
+        console.log("Uh oh! An error occurred: " + err);
+        return;
+    }
+
+    var song = data.tracks.items[0];
+    console.log("------Artists-----");
+    for(i = 0; i < song.artists.length; i++){
+        console.log(song.artists[i].name);
+    }
+
+    console.log("------Song Name-----");
+    console.log(song.name);
+
+    console.log("-------Preview Link-----");
+    console.log(song.preview_url);
+
+    console.log("-------Album-----");
+    console.log(song.album.name);
+
+    });
+
 }
 
 // function to make a call to the OMDB API using the axios package and display movie data
@@ -83,8 +106,8 @@ function movieSearch(movieName) {
 // this function simply reads whatever's on the random.txt file and displays it
 function doWhatItSays() {
 
-    // use the fs node package so that the text can be parsed
-    fs.readFile('random.txt', 'utf8', function(err, data){
+    // use the fs node package so that the text in random.txt can be parsed
+    fs.readFile("random.txt", "utf8", function(err, data){
 
 		if (err){ 
 			return console.log(err);
