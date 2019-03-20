@@ -5,7 +5,7 @@ require("dotenv").config();
 // variables to keep track of required NPM packages
 var keys = require("./keys.js");
 var fs = require("fs");
-var request = require("request");
+var axios = require("axios");
 var Spotify = require("node-spotify-api");
 
 // local variable to store my spotify key exported from keys.js
@@ -68,9 +68,13 @@ function checkInputs(actionChoice, searchQuery){
 // function to make a call to the Bands In Town API and display upcoming concert info
 function concertSearch(artistName) {
    // https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp
+   axios.get(URL).then(function(response) {
+
+   
+  });
 }
 
-// function to make a call to the Spotify API using the axios package and display song data
+// function to make a call to the Spotify API and display song data using its' built-in search funcitonality
 function spotifySearch(songName) {
 
     spotify.search({ type: "track", query: songName}, function(err, data) {
@@ -111,44 +115,40 @@ function movieSearch(movieName) {
     // Create new request to the OMDB API using the movie name entered by the user
     var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
 
-	    request(queryURL, function(error, response, movieObj) {
-
-        // Check for errors and only proceed on successful response (status code 200)
-  	    if (!error && response.statusCode === 200) {
-
-            // Parse the movie JSON object
-            var movieObj = JSON.parse(movieObj);
-            console.log(movieObj)
+	//request(queryURL, function(error, response, response) {
+    axios.get(queryURL).then(function(response) {
+        
+            //console.log(response)
 
             // Console.log out the movie data to the user in their console
 	    	console.log("--------Title-----------");
-            console.log(movieObj.Title);
+            console.log(response.data.Title);
             
 	    	console.log("--------Year Released-----------");
-	    	console.log(movieObj.Year);
+	    	console.log(response.data.Year);
 
 	   		console.log("--------IMDB Rating-----------");
-	   		console.log(movieObj.imdbRating);
+	   		console.log(response.data.imdbRating);
             
 	   		console.log("--------Rotten Tomatoes Rating-----------");
-            console.log(movieObj.Ratings[2].Value);
+            console.log(response.data.Ratings[2].Value);
 	   		
 	   		console.log("--------Plot----------------");
-	   		console.log(movieObj.Plot);
+	   		console.log(response.data.Plot);
 
 	   		console.log("--------Actors-----------");
-            console.log(movieObj.Actors);
+            console.log(response.data.Actors);
              
             console.log("--------Country Produced-----------");
-	   		console.log(movieObj.Country);
+	   		console.log(response.data.Country);
 	   		
 	   		console.log("--------Languages-----------");
-	   		console.log(movieObj.Language);
+	   		console.log(response.data.Language);
 
-        // account for potential errors
-        } else {
-            console.log("Uh oh! An error occured: " + error);
-        };
+        // display an error message in case of error
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
     });
 };
 
