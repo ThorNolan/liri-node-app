@@ -5,4 +5,3 @@ exports.spotify = {
   secret: process.env.SPOTIFY_SECRET
 };
 
-exports.omdbkey = "b2df5ec6";

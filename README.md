@@ -9,7 +9,7 @@ A command line node app I made that takes in parameters and gives you back data 
    
 2. Run `npm install` in your command line
    
-3. In your command prompt, run `node liri.js <pass in a command depending on what you want LIRI Bot to do>`
+3. At the command prompt, enter `node liri.js <pass in a command depending on what you want LIRI Bot to do>`
    
 + Command options: 
 
@@ -30,3 +30,7 @@ A command line node app I made that takes in parameters and gives you back data 
   + OMDB
   
 + **NPM** for installation of various packages required by the app.
+
+## Author
+
+Thor Nolan
