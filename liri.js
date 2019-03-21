@@ -78,6 +78,8 @@ function concertSearch(artistName) {
 function spotifySearch(songName) {
 
     spotify.search({ type: "track", query: songName}, function(err, data) {
+
+        // account for potential errors and log them to the console
         if (err) {
             console.log("Uh oh! An error occurred: " + err);
             return;
@@ -112,44 +114,54 @@ function spotifySearch(songName) {
 // function to make a call to the OMDB API using the axios package and display movie data
 function movieSearch(movieName) {
 
+  // if the user doesn't enter any movie name, use the default movie "Mr. Nobody"  
+  if (movieName === "") {
+    movieName = defaultMovie;
+  } else {
+
     // Create new request to the OMDB API using the movie name entered by the user
     var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
 
 	//request(queryURL, function(error, response, response) {
     axios.get(queryURL).then(function(response) {
         
-            //console.log(response)
+        //console.log(response)
 
-            // Console.log out the movie data to the user in their console
-	    	console.log("--------Title-----------");
-            console.log(response.data.Title);
+        // Console.log out the movie data to the user
+	    console.log("--------Title-----------");
+        console.log(response.data.Title);
             
-	    	console.log("--------Year Released-----------");
-	    	console.log(response.data.Year);
+	    console.log("--------Year Released-----------");
+	    console.log(response.data.Year);
 
-	   		console.log("--------IMDB Rating-----------");
-	   		console.log(response.data.imdbRating);
+	   	console.log("--------IMDB Rating-----------");
+	   	console.log(response.data.imdbRating);
             
-	   		console.log("--------Rotten Tomatoes Rating-----------");
-            console.log(response.data.Ratings[2].Value);
+	   	console.log("--------Rotten Tomatoes Rating-----------");
+        console.log(response.data.Ratings[2].Value);
 	   		
-	   		console.log("--------Plot----------------");
-	   		console.log(response.data.Plot);
+	   	console.log("--------Plot----------------");
+	   	console.log(response.data.Plot);
 
-	   		console.log("--------Actors-----------");
-            console.log(response.data.Actors);
+	   	console.log("--------Actors-----------");
+        console.log(response.data.Actors);
              
-            console.log("--------Country Produced-----------");
-	   		console.log(response.data.Country);
+        console.log("--------Country Produced-----------");
+	   	console.log(response.data.Country);
 	   		
-	   		console.log("--------Languages-----------");
-	   		console.log(response.data.Language);
-
-        // display an error message in case of error
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
+	   	console.log("--------Languages-----------");
+        console.log(response.data.Language);
+        
+        // use fs to log the info from the user's search to the log.txt file
+        fs.appendFile("log.txt", actorData + divider, function(err) {
+            if (err) throw err;
+        });
+    },
+    // account for potential errors
+    function(error){
+        console.log("Uh oh! An error occured: " + error);
     });
+  }
 };
 
 

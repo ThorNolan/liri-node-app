@@ -7,16 +7,19 @@ A command line node app I made that takes in parameters and gives you back data 
 
 1. Clone this repository down to your machine
    
-2. Run `npm install` in your command line
+2. Run `npm install` in your command line to download the required packages
    
-3. At the command prompt, enter `node liri.js <pass in a command depending on what you want LIRI Bot to do>`
+3. At the command prompt, enter `node liri <pass in a command depending on what you want LIRI Bot to do>`
    
-+ Command options: 
+  Command options: 
 
-   + `node liri.js concert-this <artist/band name here>`
-   + `node liri.js spotify-this-song '<song name here>'`
-   + `node liri.js movie-this '<movie name here>'`
-   + `node liri.js do-what-it-says`
++ `node liri.js concert-this <artist/band name here>`: queries the Bands in Town API and returns upcoming concert information
+  
++ `node liri.js spotify-this-song '<song name here>'`: queries the Spotify API and displays data about the song
+  
++ `node liri.js movie-this '<movie name here>'`: queries the OMDB API and displays data about the movie
+  
++ `node liri.js do-what-it-says`: displays whatever's written on the random.txt file
 
 ## Technologies Used:
 
@@ -29,7 +32,7 @@ A command line node app I made that takes in parameters and gives you back data 
   + Bands in Town
   + OMDB
   
-+ **NPM** for installation of various packages required by the app.
++ **NPM** for installation of various packages required by the app, including **Node-Spotify-API**, **fs**, **axios**, **moment**, and **DotEnv**.
 
 ## Author
 
