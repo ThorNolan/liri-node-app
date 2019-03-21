@@ -13,13 +13,13 @@ A command line node app I made that takes in parameters and gives you back data 
    
   Command options: 
 
-+ `node liri.js concert-this <artist/band name here>`: queries the Bands in Town API and returns upcoming concert information
++ `node liri.js concert-this "<artist/band name here>"`: queries the Bands in Town API and displays upcoming concert information
   
-+ `node liri.js spotify-this-song '<song name here>'`: queries the Spotify API and displays data about the song
++ `node liri.js spotify-this-song "<song name here>"`: queries the Spotify API and displays data about the song
   
-+ `node liri.js movie-this '<movie name here>'`: queries the OMDB API and displays data about the movie
++ `node liri.js movie-this "<movie name here>"`: queries the OMDB API and displays data about the movie
   
-+ `node liri.js do-what-it-says`: displays whatever's written on the random.txt file
++ `node liri.js do-what-it-says`: displays whatever's written in the random.txt file
 
 ## Technologies Used:
 
@@ -33,6 +33,8 @@ A command line node app I made that takes in parameters and gives you back data 
   + OMDB
   
 + **NPM** for installation of various packages required by the app, including **Node-Spotify-API**, **fs**, **axios**, **moment**, and **DotEnv**.
+
+## LIRI Bot in Action:
 
 ## Author
 

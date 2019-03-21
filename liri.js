@@ -7,6 +7,13 @@ var keys = require("./keys.js");
 var fs = require("fs");
 var axios = require("axios");
 var Spotify = require("node-spotify-api");
+var moment = require('moment');
+
+// time variable using moment to format concert times and keep track of logs to my logs.txt file
+var time = moment().format('HH:mm:ss');
+
+// divider to put between logs to the log.txt file for clarity
+var divider = "\n------------------------------------------------------------\n\n";
 
 // local variable to store my spotify key exported from keys.js
 var spotify = new Spotify(keys.spotify);
@@ -14,7 +21,7 @@ var spotify = new Spotify(keys.spotify);
 
 // default search values for omdb and spotify if user fails to input or input is undefined
 var defaultMovie = "Mr. Nobody";
-var defaultSong = "The Sign";
+var defaultSong = "Never Gonna Give You Up";
 
 
 // Store user inputs in variables, argv[2] for choosing which action and argv[3] for user's search query term/s
@@ -61,21 +68,40 @@ function checkInputs(actionChoice, searchQuery){
 
         // default to deal with case of invalid user inputs    
         default: 
-            console.log("Not a valid command! Please try a little harder.");
+            console.log("Not a valid command! Please try again.");
     }
 }   
 
 // function to make a call to the Bands In Town API and display upcoming concert info
 function concertSearch(artistName) {
-   // https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp
-   axios.get(URL).then(function(response) {
 
-   
-  });
+    // create local variable to hold my query URL
+    var queryURL = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
+
+    if (artistName === "") {
+        console.log("\n")
+        console.log("Please enter an Artist!")
+        console.log("\n")
+    } else {
+        
+    axios.get(queryURL).then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+
+            console.log("Venue Name: "+ response.data[i].venue.name);
+            console.log("Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+            console.log("Date of the Event: " + moment(response.data[i].datetime).format("L"));
+        }
+    });
+    }
 }
 
-// function to make a call to the Spotify API and display song data using its' built-in search funcitonality
+// function to make a call to the Spotify API and display song data using its' built-in search functionality
 function spotifySearch(songName) {
+
+  // will substitute the default song if the user didn't enter any song  
+  if (songName === "") {
+    songName = defaultSong;
+  } else {
 
     spotify.search({ type: "track", query: songName}, function(err, data) {
 
@@ -101,14 +127,14 @@ function spotifySearch(songName) {
         if (song.preview_url !== null) {
             console.log(song.preview_url);
         } else if (song.preview_url === null){
-            console.log("Sorry, no preview link available for this song :(")
+            console.log("Sorry, no preview link available for this song.")
         }
 
         console.log("-------Album-----");
         console.log(song.album.name);
 
     });
-
+  }  
 }
 
 // function to make a call to the OMDB API using the axios package and display movie data
@@ -153,11 +179,11 @@ function movieSearch(movieName) {
         console.log(response.data.Language);
         
         // use fs to log the info from the user's search to the log.txt file
-        fs.appendFile("log.txt", actorData + divider, function(err) {
-            if (err) throw err;
-        });
+        // fs.appendFile("log.txt", actorData + divider, function(err) {
+        //     if (err) throw err;
+        // });
     },
-    // account for potential errors
+    // account for potential errors from my axios call
     function(error){
         console.log("Uh oh! An error occured: " + error);
     });
