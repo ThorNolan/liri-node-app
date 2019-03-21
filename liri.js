@@ -43,7 +43,12 @@ function checkInputs(actionChoice, searchQuery){
 	switch(actionChoice){
 
         case "concert-this":
-            concertSearch(artistName);
+            // ask user to enter an artist if they fail to do so
+            if (searchQuery === undefined) {
+                console.log("\n")
+                console.log("Please enter an artist!")
+            }
+            concertSearch(searchQuery);
             break;    
 
         case "spotify-this-song":
@@ -78,30 +83,34 @@ function concertSearch(artistName) {
     // create local variable to hold my query URL
     var queryURL = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
 
+    // if no artist was entered, ask user to please enter one
     if (artistName === "") {
         console.log("\n")
-        console.log("Please enter an Artist!")
+        console.log("Please enter an artist!")
         console.log("\n")
     } else {
         
-    axios.get(queryURL).then(function (response) {
-        for (var i = 0; i < response.data.length; i++) {
-
-            console.log("Venue Name: "+ response.data[i].venue.name);
-            console.log("Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.country);
-            console.log("Date of the Event: " + moment(response.data[i].datetime).format("L"));
-        }
-    });
+        axios.get(queryURL).then(function (response) {
+            //console.log(response)
+           
+            for (var i = 0; i < response.data.length; i++) {
+                console.log("--------Venue Name-----------")
+                console.log(response.data[i].venue.name);
+                console.log("-------Venue Location---------")
+                console.log(response.data[i].venue.city + ", " + response.data[i].venue.country);
+                console.log("-------Concert Date---------")
+                console.log(moment(response.data[i].datetime).format("L"));
+                console.log(divider);
+            }
+        
+        }).catch(function (error) {
+            console.log("Uh oh! An error occured: " + error);
+        });  
     }
 }
 
-// function to make a call to the Spotify API and display song data using its' built-in search functionality
+// function to make a call to the Node-Spotify-API and display song data using its' built-in search functionality
 function spotifySearch(songName) {
-
-  // will substitute the default song if the user didn't enter any song  
-  if (songName === "") {
-    songName = defaultSong;
-  } else {
 
     spotify.search({ type: "track", query: songName}, function(err, data) {
 
@@ -132,18 +141,13 @@ function spotifySearch(songName) {
 
         console.log("-------Album-----");
         console.log(song.album.name);
+        console.log(divider)
 
-    });
-  }  
+    });  
 }
 
 // function to make a call to the OMDB API using the axios package and display movie data
 function movieSearch(movieName) {
-
-  // if the user doesn't enter any movie name, use the default movie "Mr. Nobody"  
-  if (movieName === "") {
-    movieName = defaultMovie;
-  } else {
 
     // Create new request to the OMDB API using the movie name entered by the user
     var queryURL = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
@@ -178,6 +182,8 @@ function movieSearch(movieName) {
 	   	console.log("--------Languages-----------");
         console.log(response.data.Language);
         
+        console.log(divider)
+
         // use fs to log the info from the user's search to the log.txt file
         // fs.appendFile("log.txt", actorData + divider, function(err) {
         //     if (err) throw err;
@@ -187,7 +193,6 @@ function movieSearch(movieName) {
     function(error){
         console.log("Uh oh! An error occured: " + error);
     });
-  }
 };
 
 
@@ -198,7 +203,7 @@ function doWhatItSays() {
     fs.readFile("random.txt", "utf8", function(err, data){
 
 		if (err){ 
-			return console.log(err);
+			return console.log("Uh oh! An error occured: " + err);
 		}
 
         // split contents of random.txt on the comma

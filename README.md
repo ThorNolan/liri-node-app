@@ -36,6 +36,8 @@ A command line node app I made that takes in parameters and gives you back data 
 
 ## LIRI Bot in Action:
 
+![demo gif](/LIRI-demo.gif "Demo GIF")
+
 ## Author
 
 Thor Nolan
