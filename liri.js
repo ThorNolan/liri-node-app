@@ -7,7 +7,8 @@ var keys = require("./keys.js");
 var fs = require("fs");
 var axios = require("axios");
 var Spotify = require("node-spotify-api");
-var moment = require('moment');
+var moment = require("moment");
+var chalk = require("chalk");
 
 // time variable using moment to format concert times and keep track of logs to my logs.txt file
 var time = moment().format('HH:mm:ss');
@@ -45,8 +46,7 @@ function checkInputs(actionChoice, searchQuery){
         case "concert-this":
             // ask user to enter an artist if they fail to do so
             if (searchQuery === undefined) {
-                console.log("\n")
-                console.log("Please enter an artist!")
+                console.log(chalk.red("Please enter an artist!"));
             }
             concertSearch(searchQuery);
             break;    
@@ -73,7 +73,7 @@ function checkInputs(actionChoice, searchQuery){
 
         // default to deal with case of invalid user inputs    
         default: 
-            console.log("Not a valid command! Please try again.");
+            console.log(chalk.red("Not a valid command! Please try again."));
     }
 }   
 
@@ -83,30 +83,23 @@ function concertSearch(artistName) {
     // create local variable to hold my query URL
     var queryURL = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
 
-    // if no artist was entered, ask user to please enter one
-    if (artistName === "") {
-        console.log("\n")
-        console.log("Please enter an artist!")
-        console.log("\n")
-    } else {
-        
-        axios.get(queryURL).then(function (response) {
-            //console.log(response)
+
+    axios.get(queryURL).then(function (response) {
+        //console.log(response)
            
-            for (var i = 0; i < response.data.length; i++) {
-                console.log("--------Venue Name-----------")
-                console.log(response.data[i].venue.name);
-                console.log("-------Venue Location---------")
-                console.log(response.data[i].venue.city + ", " + response.data[i].venue.country);
-                console.log("-------Concert Date---------")
-                console.log(moment(response.data[i].datetime).format("L"));
-                console.log(divider);
-            }
+        for (var i = 0; i < response.data.length; i++) {
+            console.log(chalk.blue("--------Venue Name-----------"));
+            console.log(chalk.bold(response.data[i].venue.name));
+            console.log(chalk.blue("-------Venue Location---------"));
+            console.log(chalk.bold(response.data[i].venue.city + ", " + response.data[i].venue.country));
+            console.log(chalk.blue("-------Concert Date---------"));
+            console.log(chalk.bold(moment(response.data[i].datetime).format("L")));
+            console.log(chalk.blue(divider));
+        }
         
-        }).catch(function (error) {
-            console.log("Uh oh! An error occured: " + error);
-        });  
-    }
+    }).catch(function (error) {
+        console.log(chalk.red("Uh oh! An error occured: " + error));
+    });  
 }
 
 // function to make a call to the Node-Spotify-API and display song data using its' built-in search functionality
@@ -116,7 +109,7 @@ function spotifySearch(songName) {
 
         // account for potential errors and log them to the console
         if (err) {
-            console.log("Uh oh! An error occurred: " + err);
+            console.log(chalk.red("Uh oh! An error occurred: " + err));
             return;
         }
 
@@ -124,24 +117,24 @@ function spotifySearch(songName) {
         var song = data.tracks.items[0];
 
         // console.log out the data from the API call about the searched song
-        console.log("------Artists-----");
+        console.log(chalk.green("------Artists-----"));
         for(i = 0; i < song.artists.length; i++){
-            console.log(song.artists[i].name);
+            console.log(chalk.bold(song.artists[i].name));
         }
 
-        console.log("------Song Name-----");
-        console.log(song.name);
+        console.log(chalk.green("------Song Name-----"));
+        console.log(chalk.bold(song.name));
 
-        console.log("-------Preview Link-----");
+        console.log(chalk.green("-------Preview Link-----"));
         if (song.preview_url !== null) {
-            console.log(song.preview_url);
+            console.log(chalk.bold(song.preview_url));
         } else if (song.preview_url === null){
-            console.log("Sorry, no preview link available for this song.")
+            console.log("Sorry, no preview link available for this song.");
         }
 
-        console.log("-------Album-----");
-        console.log(song.album.name);
-        console.log(divider)
+        console.log(chalk.green("-------Album-----"));
+        console.log(chalk.bold(song.album.name));
+        console.log(chalk.green(divider));
 
     });  
 }
@@ -158,31 +151,31 @@ function movieSearch(movieName) {
         //console.log(response)
 
         // Console.log out the movie data to the user
-	    console.log("--------Title-----------");
-        console.log(response.data.Title);
+	    console.log(chalk.yellow("--------Title-----------"));
+        console.log(chalk.bold(response.data.Title));
             
-	    console.log("--------Year Released-----------");
-	    console.log(response.data.Year);
+	    console.log(chalk.yellow("--------Year Released-----------"));
+	    console.log(chalk.bold(response.data.Year));
 
-	   	console.log("--------IMDB Rating-----------");
-	   	console.log(response.data.imdbRating);
+	   	console.log(chalk.yellow("--------IMDB Rating-----------"));
+	   	console.log(chalk.bold(response.data.imdbRating));
             
-	   	console.log("--------Rotten Tomatoes Rating-----------");
-        console.log(response.data.Ratings[2].Value);
+	   	console.log(chalk.yellow("--------Rotten Tomatoes Rating-----------"));
+        console.log(chalk.bold(response.data.Ratings[2].Value));
 	   		
-	   	console.log("--------Plot----------------");
-	   	console.log(response.data.Plot);
+	   	console.log(chalk.yellow("--------Plot----------------"));
+	   	console.log(chalk.bold(response.data.Plot));
 
-	   	console.log("--------Actors-----------");
-        console.log(response.data.Actors);
+	   	console.log(chalk.yellow("--------Actors-----------"));
+        console.log(chalk.bold(response.data.Actors));
              
-        console.log("--------Country Produced-----------");
-	   	console.log(response.data.Country);
+        console.log(chalk.yellow("--------Country Produced-----------"));
+	   	console.log(chalk.bold(response.data.Country));
 	   		
-	   	console.log("--------Languages-----------");
-        console.log(response.data.Language);
+	   	console.log(chalk.yellow("--------Languages-----------"));
+        console.log(chalk.bold(response.data.Language));
         
-        console.log(divider)
+        console.log(chalk.yellow(divider));
 
         // use fs to log the info from the user's search to the log.txt file
         // fs.appendFile("log.txt", actorData + divider, function(err) {
@@ -191,7 +184,7 @@ function movieSearch(movieName) {
     },
     // account for potential errors from my axios call
     function(error){
-        console.log("Uh oh! An error occured: " + error);
+        console.log(chalk.red("Uh oh! An error occured: " + error));
     });
 };
 
@@ -203,7 +196,7 @@ function doWhatItSays() {
     fs.readFile("random.txt", "utf8", function(err, data){
 
 		if (err){ 
-			return console.log("Uh oh! An error occured: " + err);
+			return console.log(chalk.red("Uh oh! An error occured: " + err));
 		}
 
         // split contents of random.txt on the comma

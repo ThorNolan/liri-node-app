@@ -1,7 +1,7 @@
 LIRI Bot
 ==============================================
 
-A command line node app I made that takes in parameters and gives you back data by using the Axios package to make calls to the Bands in Town, Spotify and OMDB APIs.
+A command line Node.js app I made that takes in parameters from the command line and retrieves data about them. It will print the information it retrieves about upcoming concerts, any song name you choose to input, or any movie. It does so by using the Axios package to make calls to the Bands in Town, Spotify and OMDB APIs, and relies on a few different Node packages to make requests, read files, and format dates and times.
 
 ## How to Deploy the App:
 
