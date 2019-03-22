@@ -1,7 +1,7 @@
 LIRI Bot
 ==============================================
 
-A command line Node.js app I made that takes in parameters from the command line and retrieves data about them. It will print the information it retrieves about upcoming concerts, any song name you choose to input, or any movie. It does so by using the Axios package to make calls to the Bands in Town, Spotify and OMDB APIs, and relies on a few different Node packages to make requests, read files, and format dates and times.
+A command line Node.js app I made that takes in parameters and retrieves data about them. It will print the information it retrieves about upcoming concerts, any song name you choose to input, or any movie. It does so by using the Axios package to make calls to the Bands in Town, Spotify and OMDB APIs, and relies on a few different Node packages to make requests, read files, and format dates and times.
 
 ## How to Deploy the App:
 
@@ -17,7 +17,7 @@ A command line Node.js app I made that takes in parameters from the command line
   
 + `node liri.js spotify-this-song "<song name here>"`: queries the Spotify API and displays data about the song
   
-+ `node liri.js movie-this "<movie name here>"`: queries the OMDB API and displays data about the movie
++ `node liri.js movie-this "<movie name here>"`: queries the OMDB API and displays data about the movie (quotations around the movie name are important for this query)
   
 + `node liri.js do-what-it-says`: displays whatever's written in the random.txt file
 
@@ -32,11 +32,11 @@ A command line Node.js app I made that takes in parameters from the command line
   + Bands in Town
   + OMDB
   
-+ **NPM** for installation of various packages required by the app, including **Node-Spotify-API**, **fs**, **axios**, **moment**, and **DotEnv**.
++ **NPM** for installation of various packages required by the app, including **Node-Spotify-API**, **fs**, **axios**, **moment**, **DotEnv**, and **chalk** for colors and bold text weighting in the command line.
 
 ## LIRI Bot in Action:
 
-![demo gif](/LIRI-demo.gif "Demo GIF")
+![demo gif](/LIRI-Bot-demo.gif "Demo GIF")
 
 ## Author
 
